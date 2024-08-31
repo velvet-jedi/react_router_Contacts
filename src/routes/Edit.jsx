@@ -1,5 +1,18 @@
-import { Form, useLoaderData } from "react-router-dom";
+import { Form, useLoaderData, redirect } from "react-router-dom";
 // Each route can define a "loader" function to provide data to the route element before it renders.
+
+import { updateContact } from "../contacts";
+
+//add an action to the edit module
+export async function action({request, params}) {
+
+    const formData = await request.formData(); // The form data is extracted using request.formData().
+    const updates = Object.fromEntries(formData); // The fromEntries method converts the form data into an object.
+    await updateContact(params.contactId, updates);
+    return redirect(`/contacts/${params.contactId}`)
+
+}
+
 export default function Edit() {
     const contact = useLoaderData();
 
