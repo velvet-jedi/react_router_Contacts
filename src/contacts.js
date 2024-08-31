@@ -3,7 +3,13 @@ const localforage = require("localforage");
 
 
 export async function updateContact(id, updates){
-    await fakeNetwork()
+    await fakeNetwork();
+    let contacts = await localforage.getItem('contacts');
+    let contact = contacts.find(contact => contact.id === id);
+    if (!contact) throw new Error('No contact found for id', id);
+    Object.assign(contact, updates);
+    await set(contacts);
+    return contact;
 }
 
 export async function deleteContact(id) {
