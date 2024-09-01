@@ -1,9 +1,13 @@
 import { Outlet, NavLink, Link, useLoaderData, Form, redirect, useNavigation } from "react-router-dom"
 import { getContacts, createContact } from "../contacts"
 
+
+// The request parameter in the loader function is provided by React Router DOM when the loader is called. It represents the HTTP request that triggered the loading of the route.
+// Route Loading: When user navigates to a route that has a defined loader function, React Router DOM calls that function. Request Object: The loader function is passed a request object as an argument. This object contains info about the HTTP request, such as the URL, HTTP method, headers, and body.
 export async function loader({ request }) {
-    const url = new URL(request.url);  
-    const q = url.searchParams.get("q");
+    const url = new URL(request.url);  // create a URL object from the request.url property of the request object.
+
+    const q = url.searchParams.get("q"); 
     const contacts = await getContacts(q);
     return {contacts}; // return as a single-property object
 }
