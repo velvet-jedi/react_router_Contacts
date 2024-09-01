@@ -24,6 +24,12 @@ export default function Root() {
 
     const submit = useSubmit();
 
+    
+    // navigation.location checks if there is a current navigation action happening.
+    // new URLSearchParams(navigation.location.search).has("q") checks if the URL parameters include a query parameter q
+    const searching = navigation.location && new URLSearchParams(navigation.location.search).has('q');
+
+
     useEffect(() => {
         document.getElementById('q').value = q;
     }, [q])
@@ -39,6 +45,7 @@ export default function Root() {
                         <input
                             type="search"
                             name='q'
+                            className={searching ? "loading" : ""}
                             id="q"
                             placeholder="Search"
                             defaultValue={q}
@@ -49,7 +56,7 @@ export default function Root() {
                         />
                         <div
                             id="search-spinner"
-                            hidden={true}
+                            hidden={!searching}
                             aria-hidden="true"
                         ></div>
                         <div
