@@ -1,4 +1,4 @@
-import { Form, useLoaderData, redirect } from "react-router-dom";
+import { Form, useLoaderData, redirect, useNavigate } from "react-router-dom";
 // Each route can define a "loader" function to provide data to the route element before it renders.
 
 import { updateContact } from "../contacts";
@@ -15,6 +15,7 @@ export async function action({request, params}) {
 
 export default function Edit() {
     const contact = useLoaderData();
+    const navigate = useNavigate();
 
     return (
 
@@ -64,7 +65,7 @@ export default function Edit() {
             </label>
             <p>
                 <button type="submit">Save</button>
-                <button type="button">Cancel</button>
+                <button type="button" onClick={() => navigate(-1)}>Cancel</button>
             </p>
         </Form>
     );
