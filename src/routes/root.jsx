@@ -1,4 +1,4 @@
-import { Outlet, NavLink, Link, useLoaderData, Form, redirect } from "react-router-dom"
+import { Outlet, NavLink, Link, useLoaderData, Form, redirect, useNavigation } from "react-router-dom"
 import { getContacts, createContact } from "../contacts"
 
 export async function loader() {
@@ -13,6 +13,7 @@ export async function create() {
 
 export default function Root() {
     const { contacts } = useLoaderData();
+    const navigation = useNavigation(); // useNavigation returns the current navigation state: it can be one of "idle" | "submitting" | "loading".
     return (
         <>
             <div id="sidebar">
@@ -73,7 +74,7 @@ export default function Root() {
                         
                     </nav>
                 </div>
-                <div id="detail">
+                <div id="detail" className={navigation.state === 'loading' ? 'loading' : ''}>
                     <Outlet></Outlet>
                 </div>
         </>
