@@ -58,8 +58,8 @@ export default function Contact() {
                         <button type='submit'>Edit</button>
                     </Form>
                     <Form
-                        method='POST'
-                        action="destroy"
+                        method='POST' 
+                        action="destroy" // submit the form to contact/:contactId/destroy when clicked.
                         onSubmit={(e) => {
                             if (
                                 !confirm(
