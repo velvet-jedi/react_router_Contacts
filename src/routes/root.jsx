@@ -9,7 +9,7 @@ export async function loader({ request }) {
 
     const q = url.searchParams.get("q"); 
     const contacts = await getContacts(q);
-    return {contacts}; // return as a single-property object
+    return {contacts, q}; // return as a single-property object
 }
 
 export async function create() {
@@ -18,7 +18,7 @@ export async function create() {
 }
 
 export default function Root() {
-    const { contacts } = useLoaderData();
+    const { contacts, q } = useLoaderData();
     const navigation = useNavigation(); // useNavigation returns the current navigation state: it can be one of "idle" | "submitting" | "loading".
     return (
         <>
@@ -31,6 +31,7 @@ export default function Root() {
                             name='q'
                             id="q"
                             placeholder="Search"
+                            defaultValue={q}
                             aria-label="Search contacts"
                         />
                         <div
