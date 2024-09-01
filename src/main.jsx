@@ -8,7 +8,7 @@ import Contact, { loader as contactLoader } from './routes/Contact';
 import { create } from './routes/root';
 import Edit, {action as editAction} from './routes/Edit';
 import { action as destroyAction } from './routes/destroy';
-
+import Index from './routes';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +18,7 @@ const router = createBrowserRouter([
     loader: rootLoader,
     action: create,
     children: [
+      { index: true, element: <Index /> },
       {
         path: 'contacts/:contactId',     // dynamic URL param
         element: <Contact />,
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       {
         path: 'contacts/:contactId/destroy',
         action: destroyAction,
+        errorElement: <div>Oops! There was an error.</div>,
       }
     ],
   },
