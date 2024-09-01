@@ -1,4 +1,4 @@
-import { Outlet, NavLink, Link, useLoaderData, Form, redirect, useNavigation } from "react-router-dom"
+import { Outlet, NavLink, Link, useLoaderData, Form, redirect, useNavigation, useSubmit } from "react-router-dom"
 import { getContacts, createContact } from "../contacts"
 import { useEffect } from "react";
 
@@ -22,9 +22,12 @@ export default function Root() {
     const { contacts, q } = useLoaderData();
     const navigation = useNavigation(); // useNavigation returns the current navigation state: it can be one of "idle" | "submitting" | "loading".
 
+    const submit = useSubmit();
+
     useEffect(() => {
         document.getElementById('q').value = q;
     }, [q])
+
 
 
     return (
@@ -40,6 +43,9 @@ export default function Root() {
                             placeholder="Search"
                             defaultValue={q}
                             aria-label="Search contacts"
+                            onChange={(e) => {
+                                submit(e.currentTarget.form);
+                            }}
                         />
                         <div
                             id="search-spinner"
