@@ -58,7 +58,7 @@ export default function Edit() {
                 <span>Notes</span>
                 <textarea
                     name="notes"
-                    defaultValue={contact?.notes}
+                    defaultValue={contact?.notes} // defaultValue is for the first render
                     rows={6}
                 />
             </label>
