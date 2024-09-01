@@ -1,10 +1,18 @@
-import { Form, useLoaderData } from "react-router-dom"; 
+/* eslint-disable react/prop-types */
+import { Form, useLoaderData, useFetcher } from "react-router-dom";
 // the Form component is used for handling form submissions in a React Router context.
-import { getContact } from "../contacts";
+import { getContact, updateContact } from "../contacts";
 
 export async function loader({ params }) {
     const contact = await getContact(params.contactId);
     return { contact };
+}
+
+export async function action( { request, params } ){
+    const formData = await request.formData();
+    return updateContact(params.contactId, {
+        favorite: formData.get('favorite') === 'true',
+    })
 }
 
 export default function Contact() {
@@ -37,7 +45,7 @@ export default function Contact() {
                     ) : (
                         <i>No name</i>
                     )} {" "}
-                    <Favorite contact={contact} /> 
+                    <Favorite contact={contact} />
                     {/* renders the Favorite component, passing the contact object as a prop.  */}
                 </h1>
 
@@ -58,14 +66,14 @@ export default function Contact() {
                         <button type='submit'>Edit</button>
                     </Form>
                     <Form
-                        method='POST' 
+                        method='POST'
                         action="destroy" // submit the form to contact/:contactId/destroy when clicked.
                         onSubmit={(e) => {
                             if (
                                 !confirm(
                                     "Please confirm you want to delete this record."
                                 )
-                            ){
+                            ) {
                                 e.preventDefault();
                             }
                         }}
@@ -80,17 +88,23 @@ export default function Contact() {
     )
 }
 
-function Favorite({contact}) {
-    const favorite=contact.favorite;
-    <button
-        name='favorite'
-        value={favorite ? false : true}  // when clicked the value will be updated NOT toggle
-        aria-label={
-            favorite
-            ? "Remove from favorites"
-            : "Add to favorites"
-        }
-    >{favorite ? "★" : "☆"}</button>
+function Favorite({ contact }) {
+    const fetcher = useFetcher();
+    const favorite = contact.favorite;
+
+    return (
+        <fetcher.Form method="post">
+            <button
+                name='favorite'
+                value={favorite ? false : true}  // when clicked the value will be updated NOT toggle
+                aria-label={
+                    favorite
+                        ? "Remove from favorites"
+                        : "Add to favorites"
+                }
+            >{favorite ? "★" : "☆"}</button>
+        </fetcher.Form>
+    )
 }
 
 // The first button is primarily for form submission, while the second for toggling a favorite state.
