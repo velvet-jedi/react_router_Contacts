@@ -1,5 +1,6 @@
 import { Outlet, NavLink, Link, useLoaderData, Form, redirect, useNavigation } from "react-router-dom"
 import { getContacts, createContact } from "../contacts"
+import { useEffect } from "react";
 
 
 // The request parameter in the loader function is provided by React Router DOM when the loader is called. It represents the HTTP request that triggered the loading of the route.
@@ -20,6 +21,12 @@ export async function create() {
 export default function Root() {
     const { contacts, q } = useLoaderData();
     const navigation = useNavigation(); // useNavigation returns the current navigation state: it can be one of "idle" | "submitting" | "loading".
+
+    useEffect(() => {
+        document.getElementById('q').value = q;
+    }, [q])
+
+
     return (
         <>
             <div id="sidebar">
